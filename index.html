@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nguyen Anh Minh</title>
+<meta name="description" content="Nguyen Anh Minh: researcher working on reasoning in large language models and retrieval-augmented generation.">
+<meta name="author" content="Nguyen Anh Minh">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #1c2226;
+    --muted: #5d6870;
+    --rule: #e2e6e8;
+    --accent: #0e6b62;
+    --accent-soft: #e5f2f0;
+    --code-bg: #f4f6f7;
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --sans: "Source Sans 3", "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181b;
+    --ink: #e4e8ea;
+    --muted: #9aa5ac;
+    --rule: #2a3136;
+    --accent: #4fc2b1;
+    --accent-soft: #1b2f2c;
+    --code-bg: #1c2226;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    transition: background .2s, color .2s;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  /* Top bar */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar {
+    max-width: 880px; margin: 0 auto; padding: 12px 20px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .bar .home { font-family: var(--serif); font-weight: 600; color: var(--ink); font-size: 18px; margin-right: auto; }
+  .bar nav { display: flex; gap: 18px; flex-wrap: wrap; }
+  .bar nav a { color: var(--muted); font-size: 15px; }
+  .bar nav a:hover { color: var(--accent); text-decoration: none; }
+  #theme {
+    border: 1px solid var(--rule); background: none; color: var(--muted);
+    width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  #theme:hover { color: var(--accent); border-color: var(--accent); }
+
+  main { max-width: 880px; margin: 0 auto; padding: 40px 20px 20px; }
+
+  /* Intro */
+  h1 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(34px, 6vw, 48px); line-height: 1.1;
+    margin: 0 0 6px; letter-spacing: -0.01em;
+  }
+  .role { color: var(--muted); margin: 0 0 28px; }
+  .intro { display: grid; grid-template-columns: 1fr 220px; gap: 36px; align-items: start; }
+  .intro p { margin: 0 0 14px; }
+  .photo { text-align: center; }
+  .photo img, .photo .initials {
+    width: 220px; height: 220px; object-fit: cover; border-radius: 6px;
+    display: block; margin: 0 auto 10px;
+  }
+  .photo .initials {
+    background: var(--accent-soft); color: var(--accent);
+    font-family: var(--serif); font-size: 64px; display: none; place-items: center;
+  }
+  .photo small { color: var(--muted); font-size: 14px; line-height: 1.4; display: block; }
+
+  .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--rule); border-radius: 20px;
+    padding: 4px 12px; font-size: 15px; color: var(--ink);
+  }
+  .links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .links svg { width: 16px; height: 16px; }
+
+  /* Sections */
+  section { margin-top: 48px; }
+  h2 {
+    font-family: var(--serif); font-weight: 500; font-size: 28px;
+    margin: 0 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--rule);
+  }
+
+  /* News */
+  .news { width: 100%; border-collapse: collapse; }
+  .news td { padding: 8px 0; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  .news tr:last-child td { border-bottom: none; }
+  .news td.date { width: 100px; color: var(--muted); font-size: 15px; white-space: nowrap; padding-right: 16px; }
+
+  /* Publications */
+  .pubs { list-style: none; padding: 0; margin: 0; }
+  .pub { display: grid; grid-template-columns: 110px 1fr; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .pub:last-child { border-bottom: none; }
+  .venue {
+    align-self: start;
+    background: var(--accent); color: var(--bg);
+    font-size: 13px; font-weight: 600; text-align: center;
+    padding: 4px 6px; border-radius: 3px; line-height: 1.3;
+  }
+  .venue.workshop { background: var(--accent-soft); color: var(--accent); }
+  .pub .title { font-weight: 600; margin: 0 0 2px; }
+  .pub .authors { margin: 0; font-size: 15.5px; }
+  .pub .authors .me { font-style: italic; text-decoration: underline; text-underline-offset: 3px; }
+  .pub .where { margin: 0; font-size: 15.5px; color: var(--muted); font-style: italic; }
+  .pub .note { margin: 2px 0 0; font-size: 15px; color: var(--accent); }
+  .pub .btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .btn {
+    font: inherit; font-size: 13px; cursor: pointer;
+    border: 1px solid var(--ink); background: none; color: var(--ink);
+    padding: 1px 10px; border-radius: 3px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+  .drawer { display: none; margin-top: 10px; }
+  .drawer.open { display: block; }
+  .drawer p { margin: 0; font-size: 15.5px; }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 12px; margin: 0; overflow-x: auto; font-size: 13px; line-height: 1.5;
+    position: relative;
+  }
+  .copy { position: absolute; top: 6px; right: 6px; background: var(--bg); }
+
+  /* Experience / awards / education */
+  .item { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  .item:last-child { border-bottom: none; }
+  .item .what { font-weight: 600; }
+  .item .when { color: var(--muted); font-size: 15px; text-align: right; }
+  .item .detail { grid-column: 1 / -1; margin: 0; font-size: 15.5px; color: var(--muted); }
+  .item .detail b { color: var(--ink); font-weight: 600; }
+
+  footer { max-width: 880px; margin: 40px auto 0; padding: 20px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--rule); }
+
+  @media (max-width: 700px) {
+    .intro { grid-template-columns: 1fr; }
+    .photo { order: -1; }
+    .photo img, .photo .initials { width: 160px; height: 160px; }
+    .pub { grid-template-columns: 1fr; gap: 8px; }
+    .venue { justify-self: start; min-width: 80px; }
+    .bar nav { display: none; }
+    .item { grid-template-columns: 1fr; }
+    .item .when { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    body { transition: none; }
+  }
+</style>
+<script>
+  // Apply saved or system theme before the page draws, so it doesn't flash.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="home" href="#">Nguyen Anh Minh</a>
+    <nav>
+      <a href="#news">News</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#awards">Awards</a>
+      <a href="assets/cv.pdf">CV</a>
+    </nav>
+    <button id="theme" aria-label="Switch light or dark mode" title="Switch light or dark mode">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <h1>Nguyen Anh Minh</h1>
+  <p class="role">Research Assistant, BreathAI Lab, Nanyang Technological University</p>
+
+  <div class="intro">
+    <div>
+      <p>I am a Research Assistant at the <b>BreathAI Lab</b>, <a href="https://www.ntu.edu.sg/">Nanyang Technological University</a> (NTU), working with Prof. Wei Lu.</p>
+      <p>My research looks at <b>what large language models represent inside their hidden states</b>, and at <b>fine-tuning models after pre-training to make them reason better</b>.</p>
+      <p>I received my Bachelor's degree in Applied Mathematics and Informatics from <a href="https://hust.edu.vn/">Hanoi University of Science and Technology</a> (2019–2023), graduating as valedictorian of the Talented Program.</p>
+
+      <div class="links">
+        <a href="mailto:minhna.workds@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
+        <a href="assets/cv.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>CV</a>
+        <!-- Replace the # below with your real profile links. Delete any line you don't need. -->
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z"/></svg>Google Scholar</a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+        <a href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.1c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4z"/></svg>LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="photo">
+      <!-- Put your photo at assets/prof_pic.jpg. Until then, initials are shown. -->
+      <img src="assets/prof_pic.jpg" alt="Photo of Nguyen Anh Minh"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+      <div class="initials" aria-hidden="true">NM</div>
+      <small>Singapore</small>
+    </div>
+  </div>
+
+  <section id="news">
+    <h2>News</h2>
+    <table class="news" id="news-table"></table>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+    <ul class="pubs" id="pub-list"></ul>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+    <div class="item">
+      <span class="what">BreathAI Lab, NTU, Research Assistant</span>
+      <span class="when">present</span>
+      <p class="detail">Working with Prof. Wei Lu on the hidden representations of LLMs and on post-training for reasoning.</p>
+    </div>
+    <div class="item">
+      <span class="what">CMC OpenAI, AI Research Expert</span>
+      <span class="when">Aug 2025 – present</span>
+      <p class="detail">Leading a team of 4 researchers on <b>VLegal-Bench</b>, the first public benchmark for Vietnamese legal reasoning in LLMs, with Dr. Nguyen Thi Ngoc Anh (HUST) and Prof. Binh Vu (SRH Heidelberg). Testing and adapting graph-based retrieval methods for large Vietnamese legal document collections.</p>
+    </div>
+    <div class="item">
+      <span class="what">VinUniversity, Research Assistant</span>
+      <span class="when">Feb 2025 – present</span>
+      <p class="detail">Advised by Dr. Dung D. Le. Work on reasoning inside the model's hidden states for retrieval (<b>LAnR</b>), LLMs for recommendation (COLM 2025, Machine Learning Journal), and a multi-agent system that writes scientific surveys (<b>SurveyG</b>).</p>
+    </div>
+    <div class="item">
+      <span class="what">Viettel Telecom, Data Scientist</span>
+      <span class="when">Oct 2022 – Feb 2025</span>
+      <p class="detail">Built the graph-based recommendation system and the search system (with LLM-based intent detection) for <b>TV360</b>, Vietnam's national digital TV platform, serving about 100K daily users. Built the data pipelines behind both systems and the executive dashboard.</p>
+    </div>
+  </section>
+
+  <section id="awards">
+    <h2>Awards</h2>
+    <div class="item">
+      <span class="what">First Prize, Viettel AI Challenge</span>
+      <span class="when">2024</span>
+      <p class="detail">1st of 300 AI engineers at Viettel, for a product recommendation system for an online store.</p>
+    </div>
+    <div class="item">
+      <span class="what">First Prize, Viettel Digital Talent</span>
+      <span class="when">2023</span>
+      <p class="detail">1st of 8,000 students, for a cross-domain recommendation system.</p>
+    </div>
+    <div class="item">
+      <span class="what">First Prize, Econometrics and Applications Olympiad</span>
+      <span class="when">2022</span>
+      <p class="detail">1st of 400 teams, awarded by the Institute of Mathematics, VAST. Built a Markov-chain model for insurance pricing.</p>
+    </div>
+    <div class="item">
+      <span class="what">Valedictorian, Applied Mathematics and Informatics Talented Program, HUST</span>
+      <span class="when">2023</span>
+      <p class="detail">GPA 3.78 / 4.00.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> Nguyen Anh Minh. Hosted on GitHub Pages.
+</footer>
+
+<script>
+/* =========================================================
+   EDIT YOUR CONTENT HERE
+   To add news or a paper, copy one block and change the text.
+   Leave a link as "" to hide its button.
+   ========================================================= */
+
+const NEWS = [
+  { date: "Sep 2026", text: "Two papers accepted at <b>NeurIPS 2026</b>: <i>LAnR</i> and <i>VLegal-Bench</i>. 🎉" },
+  { date: "Jul 2026", text: "<i>VLegal-Bench</i> selected for an <b>oral</b> talk at the ICML 2026 AI4Law Workshop." },
+  { date: "2026",     text: "<i>Majority-Voting LLM-Rerank Augmentation</i> published in <b>Machine Learning Journal</b> (Springer)." },
+  { date: "2025",     text: "<i>Joint Embedding Predictive Architecture for Sequential Recommendation</i> accepted at <b>COLM 2025</b>." },
+  { date: "Aug 2025", text: "Joined <b>CMC OpenAI</b> as an AI Research Expert." },
+  { date: "Feb 2025", text: "Started as a Research Assistant at <b>VinUniversity</b> with Dr. Dung D. Le." }
+];
+
+const ME = "Minh-Anh Nguyen";   // your name as written in author lists; it gets underlined
+
+const PUBS = [
+  {
+    venue: "NeurIPS", workshop: false,
+    title: "LAnR: Latent Abstraction Retrieval-Augmented Generation for Multi-hop Reasoning",
+    authors: ["Minh-Anh Nguyen", "Ha Lan N.T.", "Dung D. Le"],
+    where: "Advances in Neural Information Processing Systems (NeurIPS), 2026",
+    note: "Also presented at the ICML 2026 EMM-QA Workshop",
+    abstract: "LAnR lets a language model search for documents straight from its hidden states, using special [PRED] tokens instead of writing out search queries as text. A small module decides when to stop searching based on how uncertain the model is, aiming for better accuracy and faster answers than step-by-step retrieval methods such as Search-R1, Self-RAG and IRCoT.",
+    pdf: "", code: "",
+    bib: `@inproceedings{nguyen2026lanr,
+  title     = {LAnR: Latent Abstraction Retrieval-Augmented Generation for Multi-hop Reasoning},
+  author    = {Nguyen, Minh-Anh and N.T., Ha Lan and Le, Dung D.},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}`
+  },
+  {
+    venue: "NeurIPS", workshop: false,
+    title: "VLegal-Bench: Cognitively Grounded Benchmark for Vietnamese Legal Reasoning of Large Language Models",
+    authors: ["Minh-Anh Nguyen", "Nguyen Tien Dong", "Thanh Dat Hoang", "Nguyen Tuan Ngoc", "Dao Xuan Quang Minh", "Phan Phi Hai", "Nguyen Thi Ngoc Anh", "Binh Vu"],
+    where: "Advances in Neural Information Processing Systems (NeurIPS), 2026",
+    note: "Oral at the ICML 2026 AI4Law Workshop",
+    abstract: "The first public benchmark for testing how well large language models reason about Vietnamese law, with tasks organized by the kind of thinking they require.",
+    pdf: "", code: "",
+    bib: `@inproceedings{nguyen2026vlegalbench,
+  title     = {VLegal-Bench: Cognitively Grounded Benchmark for Vietnamese Legal Reasoning of Large Language Models},
+  author    = {Nguyen, Minh-Anh and Nguyen, Tien Dong and Hoang, Thanh Dat and Nguyen, Tuan Ngoc and Dao, Xuan Quang Minh and Phan, Phi Hai and Nguyen, Thi Ngoc Anh and Vu, Binh},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026}
+}`
+  },
+  {
+    venue: "MLJ", workshop: false,
+    title: "Enhancing Graph-based Recommendations with Majority-Voting LLM-Rerank Augmentation",
+    authors: ["Minh-Anh Nguyen", "Bao Nguyen", "Ha Lan N.T.", "Tuan Anh Hoang", "Duc-Trong Le", "Dung D. Le"],
+    where: "Machine Learning Journal (Springer), 2026",
+    note: "",
+    abstract: "",
+    pdf: "", code: "",
+    bib: `@article{nguyen2026majority,
+  title   = {Enhancing Graph-based Recommendations with Majority-Voting LLM-Rerank Augmentation},
+  author  = {Nguyen, Minh-Anh and Nguyen, Bao and N.T., Ha Lan and Hoang, Tuan Anh and Le, Duc-Trong and Le, Dung D.},
+  journal = {Machine Learning},
+  year    = {2026}
+}`
+  },
+  {
+    venue: "COLM", workshop: false,
+    title: "Learning Effective Language Representations for Sequential Recommendation via Joint Embedding Predictive Architecture",
+    authors: ["Minh-Anh Nguyen", "Dung D. Le"],
+    where: "Conference on Language Modeling (COLM), 2025",
+    note: "",
+    abstract: "",
+    pdf: "", code: "",
+    bib: `@inproceedings{nguyen2025jepa,
+  title     = {Learning Effective Language Representations for Sequential Recommendation via Joint Embedding Predictive Architecture},
+  author    = {Nguyen, Minh-Anh and Le, Dung D.},
+  booktitle = {Conference on Language Modeling},
+  year      = {2025}
+}`
+  },
+  {
+    venue: "AI4X", workshop: true,
+    title: "SurveyG: A Multi-Agent LLM Framework with Hierarchical Citation Graph for Automated Survey Generation",
+    authors: ["Minh-Anh Nguyen", "Minh-Duc Nguyen", "Nguyen Thi Ha Lan", "Kieu Hai Dang", "Nguyen Tien Dong", "Dung D. Le"],
+    where: "AI4X, 2026; ICML 2026 AI4Science Workshop",
+    note: "",
+    abstract: "",
+    pdf: "", code: "",
+    bib: `@inproceedings{nguyen2026surveyg,
+  title  = {SurveyG: A Multi-Agent LLM Framework with Hierarchical Citation Graph for Automated Survey Generation},
+  author = {Nguyen, Minh-Anh and Nguyen, Minh-Duc and Nguyen, Thi Ha Lan and Kieu, Hai Dang and Nguyen, Tien Dong and Le, Dung D.},
+  booktitle = {AI4X},
+  year   = {2026}
+}`
+  }
+];
+
+/* ========== Nothing below needs editing ========== */
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("news-table").innerHTML = NEWS.map(n =>
+  `<tr><td class="date">${n.date}</td><td>${n.text}</td></tr>`).join("");
+
+function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+
+document.getElementById("pub-list").innerHTML = PUBS.map((p, i) => {
+  const authors = p.authors.map(a => a === ME ? `<span class="me">${a}</span>` : a).join(", ");
+  const btns = [];
+  if (p.abstract) btns.push(`<button class="btn" data-open="abs${i}" aria-expanded="false">Abstract</button>`);
+  if (p.pdf) btns.push(`<a class="btn" href="${p.pdf}">PDF</a>`);
+  if (p.code) btns.push(`<a class="btn" href="${p.code}">Code</a>`);
+  if (p.bib) btns.push(`<button class="btn" data-open="bib${i}" aria-expanded="false">Bib</button>`);
+  return `<li class="pub">
+    <div class="venue${p.workshop ? " workshop" : ""}">${p.venue}</div>
+    <div>
+      <p class="title">${p.title}</p>
+      <p class="authors">${authors}</p>
+      <p class="where">${p.where}</p>
+      ${p.note ? `<p class="note">${p.note}</p>` : ""}
+      <div class="btns">${btns.join("")}</div>
+      ${p.abstract ? `<div class="drawer" id="abs${i}"><p>${p.abstract}</p></div>` : ""}
+      ${p.bib ? `<div class="drawer" id="bib${i}"><pre><button class="btn copy">Copy</button><code>${esc(p.bib)}</code></pre></div>` : ""}
+    </div>
+  </li>`;
+}).join("");
+
+document.getElementById("pub-list").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.classList.contains("copy")) {
+    const text = b.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      b.textContent = "Copied";
+      setTimeout(() => b.textContent = "Copy", 1500);
+    });
+    return;
+  }
+  const id = b.dataset.open;
+  if (!id) return;
+  const box = document.getElementById(id);
+  const open = box.classList.toggle("open");
+  b.setAttribute("aria-expanded", open);
+});
+
+document.getElementById("theme").addEventListener("click", () => {
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("theme", next); } catch (e) {}
+});
+</script>
+</body>
+</html>
